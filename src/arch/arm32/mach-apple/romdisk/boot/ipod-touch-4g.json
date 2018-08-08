@@ -1,0 +1,195 @@
+{
+	"clk-fixed@0": { "name": "xin24m", "rate": 24000000 },
+	"clk-fixed@1": { "name": "xin48m", "rate": 48000000 },
+	"clk-fixed@2": { "name": "xin32k", "rate": 32768 },
+	
+	"clk-s5l8930-pll@0xbf100000": { "parent": "xin48m", "name": "apll" },
+	"clk-s5l8930-pll@0xbf100008": { "parent": "xin48m", "name": "mpll" },
+	"clk-s5l8930-pll@0xbf100010": { "parent": "xin48m", "name": "epll" },
+	"clk-s5l8930-pll@0xbf100020": { "parent": "xin48m", "name": "vpll" },
+
+	"irq-pl192@0xbf200000": {
+		"interrupt-base": 0,
+		"interrupt-count": 32
+	},
+
+	"irq-pl192@0xbf210000": {
+		"interrupt-base": 32,
+		"interrupt-count": 32
+	},
+
+	"irq-pl192@0xbf220000": {
+		"interrupt-base": 64,
+		"interrupt-count": 32
+	},
+
+	"irq-pl192@0xbf230000": {
+		"interrupt-base": 96,
+		"interrupt-count": 32
+	},
+
+	"irq-s5l8930-gpio@0xbfa00000": {
+		"interrupt-base": 128,
+		"interrupt-count": 176,
+		"interrupt-parent": 116
+	},
+
+	"gpio-s5l8930@0xbfa00000": {
+		"gpio-base": 0,
+		"gpio-count": 176,
+		"interrupt-offset": 128
+	},
+
+	"cs-s5l8930-timer@0xbf102000": {
+		"clock-name": "xin24m"
+	},
+
+	"uart-samsung@0x82500000": {
+		"clock-name": "xin24m",
+		"txd-gpio": -1,
+		"txd-gpio-config": -1,
+		"rxd-gpio": -1,
+		"rxd-gpio-config": -1,
+		"baud-rates": 115200,
+		"data-bits": 8,
+		"parity-bits": 0,
+		"stop-bits": 1
+	},
+
+	"uart-samsung@0x82600000": {
+		"clock-name": "xin24m",
+		"txd-gpio": -1,
+		"txd-gpio-config": -1,
+		"rxd-gpio": -1,
+		"rxd-gpio-config": -1,
+		"baud-rates": 115200,
+		"data-bits": 8,
+		"parity-bits": 0,
+		"stop-bits": 1
+	},
+
+	"uart-samsung@0x82700000": {
+		"clock-name": "xin24m",
+		"txd-gpio": -1,
+		"txd-gpio-config": -1,
+		"rxd-gpio": -1,
+		"rxd-gpio-config": -1,
+		"baud-rates": 115200,
+		"data-bits": 8,
+		"parity-bits": 0,
+		"stop-bits": 1
+	},
+
+	"uart-samsung@0x82800000": {
+		"clock-name": "xin24m",
+		"txd-gpio": -1,
+		"txd-gpio-config": -1,
+		"rxd-gpio": -1,
+		"rxd-gpio-config": -1,
+		"baud-rates": 115200,
+		"data-bits": 8,
+		"parity-bits": 0,
+		"stop-bits": 1
+	},
+
+	"uart-samsung@0x82900000": {
+		"clock-name": "xin24m",
+		"txd-gpio": -1,
+		"txd-gpio-config": -1,
+		"rxd-gpio": -1,
+		"rxd-gpio-config": -1,
+		"baud-rates": 115200,
+		"data-bits": 8,
+		"parity-bits": 0,
+		"stop-bits": 1
+	},
+
+	"uart-samsung@0x82a00000": {
+		"clock-name": "xin24m",
+		"txd-gpio": -1,
+		"txd-gpio-config": -1,
+		"rxd-gpio": -1,
+		"rxd-gpio-config": -1,
+		"baud-rates": 115200,
+		"data-bits": 8,
+		"parity-bits": 0,
+		"stop-bits": 1
+	},
+
+	"uart-samsung@0x82b00000": {
+		"clock-name": "xin24m",
+		"txd-gpio": -1,
+		"txd-gpio-config": -1,
+		"rxd-gpio": -1,
+		"rxd-gpio-config": -1,
+		"baud-rates": 115200,
+		"data-bits": 8,
+		"parity-bits": 0,
+		"stop-bits": 1
+	},
+
+	"i2c-gpio@0": {
+		"sda-gpio": 75,
+		"scl-gpio": 76,
+		"sda-open-drain": false,
+		"scl-open-drain": false,
+		"sda-output-only": false,
+		"delay-us": 5
+	},
+
+	"i2c-gpio@1": {
+		"sda-gpio": 78,
+		"scl-gpio": 77,
+		"sda-open-drain": false,
+		"scl-open-drain": false,
+		"sda-output-only": false,
+		"delay-us": 5
+	},
+
+	"i2c-gpio@2": {
+		"sda-gpio": 79,
+		"scl-gpio": 80,
+		"sda-open-drain": false,
+		"scl-open-drain": false,
+		"sda-output-only": false,
+		"delay-us": 5
+	},
+
+	"key-gpio-polled@0": {
+		"keys": [
+			{ "gpio": 0, "active-low": true, "key-code": 11 },
+			{ "gpio": 1, "active-low": true, "key-code": 1 },
+			{ "gpio": 2, "active-low": true, "key-code": 6 },
+			{ "gpio": 3, "active-low": true, "key-code": 7 },
+			{ "gpio": 4, "active-low": true, "key-code": 8 }
+		],
+		"poll-interval-ms": 100
+	},
+
+	"wdg-s5l8930@0xbf102020": {
+		"clock-name": "xin24m"
+	},
+
+	"fb-s5l8930@0x89004000": {
+		"width": 640,
+		"height": 960,
+		"dots-per-inch-x": 326,
+		"dots-per-inch-y": 326,
+		"bits-per-pixel": 32,
+		"hfront-porch": 1,
+		"hback-porch": 1,
+		"hsync-len": 1,
+		"vfront-porch": 1,
+		"vback-porch": 1,
+		"vsync-len": 1
+	},
+
+	"gmeter-lis331dlh@0": {
+		"i2c-bus": "i2c-gpio.2",
+		"slave-address": 25
+	},
+
+	"console-uart@0": {
+		"uart-bus": "uart-samsung.0"
+	}
+}

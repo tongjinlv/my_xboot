@@ -1,0 +1,572 @@
+{
+	"clk-fixed@0": { "name": "usbphy480m", "rate": 480000000 },
+	"clk-fixed@1": { "name": "xin24m", "rate": 24000000 },
+	"clk-fixed@2": { "name": "xin32k", "rate": 32768 },
+
+	"clk-rk3128-pll@0": { "parent": "xin24m", "name": "apll", "channel": 0, "default": { "rate": 800000000 }},
+	"clk-rk3128-pll@1": { "parent": "xin24m", "name": "dpll", "channel": 1 },
+	"clk-rk3128-pll@2": { "parent": "xin24m", "name": "cpll", "channel": 2 },
+	"clk-rk3128-pll@3": { "parent": "xin24m", "name": "gpll", "channel": 3 },
+
+	"clk-fixed-factor@0": { "parent": "gpll", "name": "gpll-d2", "mult": 1, "div": 2 },
+	"clk-fixed-factor@1": { "parent": "gpll", "name": "gpll-d3", "mult": 1, "div": 3 },
+
+	"clk-rk3128-mux@0x20000044": {
+		"parent": [
+			{ "name": "cpll", "value": 0 },
+			{ "name": "gpll", "value": 1 },
+			{ "name": "gpll-d2", "value": 2 },
+			{ "name": "gpll-d3", "value": 3 }
+		],
+		"name": "mux-cpu-aclk", "shift": 13, "width": 2
+	},
+	"clk-rk3128-divider@0x20000044": { "parent": "mux-cpu-aclk", "name": "cpu-aclk", "shift": 8, "width": 5, "divider-one-based": true },
+	"clk-rk3128-divider@0x20000048": { "parent": "cpu-aclk", "name": "cpu-hclk", "shift": 8, "width": 2, "divider-one-based": true },
+	"clk-rk3128-divider@0x20000048": { "parent": "cpu-aclk", "name": "cpu-pclk", "shift": 12, "width": 3, "divider-one-based": true },
+
+	"clk-rk3128-mux@0x2000006c": {
+		"parent": [
+			{ "name": "gpll", "value": 0 },
+			{ "name": "cpll", "value": 1 },
+			{ "name": "gpll-d2", "value": 2 },
+			{ "name": "gpll-d3", "value": 3 }
+		],
+		"name": "mux-periph-aclk", "shift": 14, "width": 2
+	},
+	"clk-rk3128-divider@0x2000006c": { "parent": "mux-periph-aclk", "name": "periph-aclk", "shift": 0, "width": 5, "divider-one-based": true },
+	"clk-rk3128-ratio@0x2000006c": { "parent": "periph-aclk", "name": "periph-hclk", "shift": 8, "width": 2 },
+	"clk-rk3128-ratio@0x2000006c": { "parent": "periph-aclk", "name": "periph-pclk", "shift": 12, "width": 2 },
+
+	"clk-rk3128-mux@0x200000b0": {
+		"parent": [
+			{ "name": "cpll", "value": 0 },
+			{ "name": "gpll", "value": 1 },
+			{ "name": "gpll-d2", "value": 2 },
+			{ "name": "gpll-d3", "value": 3 }
+		],
+		"name": "mux-dclk-lcd", "shift": 0, "width": 2
+	},
+	"clk-rk3128-gate@0x200000dc": {"parent": "mux-dclk-lcd", "name": "gate-dclk-lcd", "shift": 1, "invert": true },
+	"clk-rk3128-divider@0x200000b0": { "parent": "gate-dclk-lcd", "name": "div-dclk-lcd", "shift": 8, "width": 8, "divider-one-based": true },
+	"clk-link": { "parent": "div-dclk-lcd", "name": "link-dclk-lcd" },
+
+	"clk-rk3128-mux@0x200000b4": {
+		"parent": [
+			{ "name": "cpll", "value": 0 },
+			{ "name": "gpll", "value": 1 },
+			{ "name": "gpll-d2", "value": 2 },
+			{ "name": "gpll-d3", "value": 3 }
+		],
+		"name": "mux-sclk-lcd", "shift": 0, "width": 2
+	},
+	"clk-rk3128-gate@0x200000dc": {"parent": "mux-sclk-lcd", "name": "gate-sclk-lcd", "shift": 2, "invert": true },
+	"clk-rk3128-divider@0x200000b4": { "parent": "gate-sclk-lcd", "name": "div-sclk-lcd", "shift": 8, "width": 8, "divider-one-based": true },
+	"clk-link": { "parent": "div-sclk-lcd", "name": "link-sclk-lcd" },
+
+	"clk-rk3128-gate@0x200000f8": { "parent": "xin24m", "name": "gate-timer0", "shift": 3, "invert": true },
+	"clk-rk3128-gate@0x200000f8": { "parent": "xin24m", "name": "gate-timer1", "shift": 4, "invert": true },
+	"clk-rk3128-gate@0x200000f8": { "parent": "xin24m", "name": "gate-timer2", "shift": 5, "invert": true },
+	"clk-rk3128-gate@0x200000f8": { "parent": "xin24m", "name": "gate-timer3", "shift": 6, "invert": true },
+	"clk-rk3128-gate@0x200000f8": { "parent": "xin24m", "name": "gate-timer4", "shift": 7, "invert": true },
+	"clk-rk3128-gate@0x200000f8": { "parent": "xin24m", "name": "gate-timer5", "shift": 8, "invert": true },
+	"clk-link": { "parent": "gate-timer0", "name": "link-timer0" },
+	"clk-link": { "parent": "gate-timer1", "name": "link-timer1" },
+	"clk-link": { "parent": "gate-timer2", "name": "link-timer2" },
+	"clk-link": { "parent": "gate-timer3", "name": "link-timer3" },
+	"clk-link": { "parent": "gate-timer4", "name": "link-timer4" },
+	"clk-link": { "parent": "gate-timer5", "name": "link-timer5" },
+
+	"clk-rk3128-gate@0x200000f0": { "parent": "periph-pclk", "name": "gate-i2c0", "shift": 4, "invert": true },
+	"clk-rk3128-gate@0x200000f0": { "parent": "periph-pclk", "name": "gate-i2c1", "shift": 5, "invert": true },
+	"clk-rk3128-gate@0x200000f0": { "parent": "periph-pclk", "name": "gate-i2c2", "shift": 6, "invert": true },
+	"clk-rk3128-gate@0x200000f0": { "parent": "periph-pclk", "name": "gate-i2c3", "shift": 7, "invert": true },
+	"clk-link": { "parent": "gate-i2c0", "name": "link-i2c0" },
+	"clk-link": { "parent": "gate-i2c1", "name": "link-i2c1" },
+	"clk-link": { "parent": "gate-i2c2", "name": "link-i2c2" },
+	"clk-link": { "parent": "gate-i2c3", "name": "link-i2c3" },
+
+	"clk-rk3128-gate@0x200000ec": { "parent": "periph-pclk", "name": "gate-pwm", "shift": 10, "invert": true, "default": { "enable": true } },
+	"clk-link": { "parent": "gate-pwm", "name": "link-pwm0" },
+	"clk-link": { "parent": "gate-pwm", "name": "link-pwm1" },
+	"clk-link": { "parent": "gate-pwm", "name": "link-pwm2" },
+	"clk-link": { "parent": "gate-pwm", "name": "link-pwm3" },
+
+	"clk-rk3128-gate@0x200000ec": { "parent": "periph-pclk", "name": "gate-wdt", "shift": 15, "invert": true },
+	"clk-link": { "parent": "gate-wdt", "name": "link-wdt" },
+	
+	"clk-rk3128-gate@0x200000d8": { "parent": "xin24m", "name": "gate-saradc", "shift": 8, "invert": true },
+	"clk-rk3128-divider@0x200000a0": { "parent": "gate-saradc", "name": "div-saradc", "shift": 8, "width": 8, "divider-one-based": true, "default": { "rate": 1000000 } },
+	"clk-link": { "parent": "div-saradc", "name": "link-saradc" },
+
+	"clk-rk3128-mux@0x200000a8": {
+		"parent": [
+			{ "name": "cpll", "value": 0 },
+			{ "name": "gpll", "value": 1 },
+			{ "name": "gpll-d2", "value": 2 }
+		],
+		"name": "mux-spi-src", "shift": 8, "width": 2
+	},
+	"clk-rk3128-gate@0x200000d8": {"parent": "mux-spi-src", "name": "gate-spi-src", "shift": 9, "invert": true },
+	"clk-rk3128-divider@0x200000a8": { "parent": "gate-spi-src", "name": "div-spi-src", "shift": 0, "width": 7, "divider-one-based": true, "default": { "rate": 92000000 } },
+	"clk-rk3128-gate@0x200000ec": { "parent": "div-spi-src", "name": "gate-spi", "shift": 12, "invert": true },
+	"clk-link": { "parent": "gate-spi", "name": "link-spi" },
+
+	"clk-rk3128-mux@0x20000074": {
+		"parent": [
+			{ "name": "cpll", "value": 0 },
+			{ "name": "gpll", "value": 1 },
+			{ "name": "gpll-d2", "value": 2 },
+			{ "name": "xin24m", "value": 3 }
+		],
+		"name": "mux-emmc-src", "shift": 14, "width": 2,
+		"default": { "parent": "gpll" }
+	},
+	"clk-rk3128-gate@0x200000d8": {"parent": "mux-emmc-src", "name": "gate-emmc-src", "shift": 14, "invert": true },
+	"clk-rk3128-divider@0x20000074": { "parent": "gate-emmc-src", "name": "div-emmc-src", "shift": 8, "width": 6, "divider-one-based": true },
+	"clk-rk3128-gate@0x200000ec": { "parent": "div-emmc-src", "name": "gate-emmc", "shift": 0, "invert": true },
+	"clk-link": { "parent": "gate-emmc", "name": "link-emmc" },
+
+	"clk-rk3128-mux@0x20000070": {
+		"parent": [
+			{ "name": "cpll", "value": 0 },
+			{ "name": "gpll", "value": 1 },
+			{ "name": "gpll-d2", "value": 2 },
+			{ "name": "xin24m", "value": 3 }
+		],
+		"name": "mux-sdmmc-src", "shift": 6, "width": 2,
+		"default": { "parent": "gpll" }
+	},
+	"clk-rk3128-gate@0x200000d8": {"parent": "mux-sdmmc-src", "name": "gate-sdmmc-src", "shift": 11, "invert": true },
+	"clk-rk3128-divider@0x20000070": { "parent": "gate-sdmmc-src", "name": "div-sdmmc-src", "shift": 0, "width": 6, "divider-one-based": true },
+	"clk-rk3128-gate@0x200000ec": { "parent": "div-sdmmc-src", "name": "gate-sdmmc", "shift": 10, "invert": true },
+	"clk-link": { "parent": "gate-sdmmc", "name": "link-sdmmc" },
+
+	"clk-rk3128-mux@0x20000074": {
+		"parent": [
+			{ "name": "cpll", "value": 0 },
+			{ "name": "gpll", "value": 1 },
+			{ "name": "gpll-d2", "value": 2 },
+			{ "name": "xin24m", "value": 3 }
+		],
+		"name": "mux-sdio-src", "shift": 6, "width": 2,
+		"default": { "parent": "gpll" }
+	},
+	"clk-rk3128-gate@0x200000d8": {"parent": "mux-sdio-src", "name": "gate-sdio-src", "shift": 13, "invert": true },
+	"clk-rk3128-divider@0x20000074": { "parent": "gate-sdio-src", "name": "div-sdio-src", "shift": 0, "width": 6, "divider-one-based": true },
+	"clk-rk3128-gate@0x200000ec": { "parent": "div-sdio-src", "name": "gate-sdio", "shift": 11, "invert": true },
+	"clk-link": { "parent": "gate-sdio", "name": "link-sdio" },
+
+	"clk-rk3128-mux@0x20000078": {
+		"parent": [
+			{ "name": "cpll", "value": 0 },
+			{ "name": "gpll", "value": 1 },
+			{ "name": "gpll-d2", "value": 2 },
+			{ "name": "usbphy480m", "value": 3 }
+		],
+		"name": "mux-uart0-src", "shift": 12, "width": 2
+	},
+	"clk-rk3128-gate@0x200000d4": {"parent": "mux-uart0-src", "name": "gate-uart0-src", "shift": 8, "invert": true },
+	"clk-rk3128-divider@0x20000078": { "parent": "gate-uart0-src", "name": "div-uart0-src", "shift": 0, "width": 7, "divider-one-based": true },
+	"clk-rk3128-gate@0x200000d4": {"parent": "div-uart0-src", "name": "gate-uart0-frac", "shift": 9, "invert": true },
+	"clk-rk3128-factor@0x20000088": { "parent": "gate-uart0-frac", "name": "factor-uart0-frac" },
+	"clk-rk3128-mux@0x20000078": {
+		"parent": [
+			{ "name": "gate-uart0-src", "value": 0 },
+			{ "name": "factor-uart0-frac", "value": 1 },
+			{ "name": "xin24m", "value": 2 }
+		],
+		"name": "mux-uart0", "shift": 8, "width": 2
+	},
+	"clk-link": { "parent": "mux-uart0", "name": "link-uart0" },
+
+	"clk-rk3128-mux@0x20000078": {
+		"parent": [
+			{ "name": "cpll", "value": 0 },
+			{ "name": "gpll", "value": 1 },
+			{ "name": "gpll-d2", "value": 2 }
+		],
+		"name": "mux-uart12-src", "shift": 14, "width": 2
+	},
+	"clk-rk3128-gate@0x200000d4": {"parent": "mux-uart12-src", "name": "gate-uart1-src", "shift": 10, "invert": true },
+	"clk-rk3128-gate@0x200000d4": {"parent": "mux-uart12-src", "name": "gate-uart2-src", "shift": 12, "invert": true },
+	"clk-rk3128-divider@0x2000007c": { "parent": "gate-uart1-src", "name": "div-uart1-src", "shift": 0, "width": 7, "divider-one-based": true },
+	"clk-rk3128-divider@0x20000080": { "parent": "gate-uart2-src", "name": "div-uart2-src", "shift": 0, "width": 7, "divider-one-based": true },
+	"clk-rk3128-gate@0x200000d4": {"parent": "div-uart1-src", "name": "gate-uart1-frac", "shift": 11, "invert": true },
+	"clk-rk3128-gate@0x200000d4": {"parent": "div-uart2-src", "name": "gate-uart2-frac", "shift": 13, "invert": true },
+	"clk-rk3128-factor@0x2000008c": { "parent": "gate-uart1-frac", "name": "factor-uart1-frac" },
+	"clk-rk3128-factor@0x20000090": { "parent": "gate-uart2-frac", "name": "factor-uart2-frac" },
+	"clk-rk3128-mux@0x2000007c": {
+		"parent": [
+			{ "name": "gate-uart1-src", "value": 0 },
+			{ "name": "factor-uart1-frac", "value": 1 },
+			{ "name": "xin24m", "value": 2 }
+		],
+		"name": "mux-uart1", "shift": 8, "width": 2
+	},
+	"clk-rk3128-mux@0x20000080": {
+		"parent": [
+			{ "name": "gate-uart2-src", "value": 0 },
+			{ "name": "factor-uart2-frac", "value": 1 },
+			{ "name": "xin24m", "value": 2 }
+		],
+		"name": "mux-uart2", "shift": 8, "width": 2
+	},
+	"clk-link": { "parent": "mux-uart1", "name": "link-uart1" },
+	"clk-link": { "parent": "mux-uart2", "name": "link-uart2" },
+
+	"irq-gic400@0x10138000": {
+		"interrupt-base": 32,
+		"interrupt-count": 96
+	},
+
+	"irq-rk3128-gpio@0x2007c000": {
+		"interrupt-base": 128,
+		"interrupt-count": 32,
+		"interrupt-parent": 68
+	},
+	
+	"irq-rk3128-gpio@0x20080000": {
+		"interrupt-base": 160,
+		"interrupt-count": 32,
+		"interrupt-parent": 69
+	},
+	
+	"irq-rk3128-gpio@0x20084000": {
+		"interrupt-base": 192,
+		"interrupt-count": 32,
+		"interrupt-parent": 70
+	},
+	
+	"irq-rk3128-gpio@0x20088000": {
+		"interrupt-base": 224,
+		"interrupt-count": 32,
+		"interrupt-parent": 71
+	},
+
+	"gpio-rk3128@0x2007c000": {
+		"gpio-base": 0,
+		"gpio-count": 32,
+		"interrupt-offset": 128
+	},
+
+	"gpio-rk3128@0x20080000": {
+		"gpio-base": 32,
+		"gpio-count": 32,
+		"interrupt-offset": 160
+	},
+
+	"gpio-rk3128@0x20084000": {
+		"gpio-base": 64,
+		"gpio-count": 32,
+		"interrupt-offset": 192
+	},
+
+	"gpio-rk3128@0x20088000": {
+		"gpio-base": 96,
+		"gpio-count": 32,
+		"interrupt-offset": 224
+	},
+
+	"pwm-rk3128@0x20050000": {
+		"clock-name": "link-pwm0",
+		"channel": 0,
+		"pwm-gpio": 26,
+		"pwm-gpio-config": 1
+	},
+
+	"pwm-rk3128@0x20050000": {
+		"clock-name": "link-pwm1",
+		"channel": 1,
+		"pwm-gpio": 27,
+		"pwm-gpio-config": 1
+	},
+
+	"pwm-rk3128@0x20050000": {
+		"clock-name": "link-pwm2",
+		"channel": 2,
+		"pwm-gpio": 28,
+		"pwm-gpio-config": 1
+	},
+
+	"pwm-rk3128@0x20050000": {
+		"clock-name": "link-pwm3",
+		"channel": 3,
+		"pwm-gpio": 122,
+		"pwm-gpio-config": 1
+	},
+
+	"adc-rk3128@0x2006c000": {
+		"clock-name": "link-saradc",
+		"reference-voltage": 1800000
+	},
+
+	"ce-rockchip-timer@0x20044000": {
+		"clock-name": "link-timer0",
+		"interrupt": 60
+	},
+
+	"cs-rockchip-timer@0x20044020": {
+		"clock-name": "link-timer1"
+	},
+
+	"uart-8250@0x20060000": {
+		"clock-name": "link-uart0",
+		"txd-gpio": 90,
+		"txd-gpio-config": 2,
+		"rxd-gpio": 91,
+		"rxd-gpio-config": 2,
+		"baud-rates": 115200,
+		"data-bits": 8,
+		"parity-bits": 0,
+		"stop-bits": 1
+	},
+
+	"uart-8250@0x20064000": {
+		"clock-name": "link-uart1",
+		"txd-gpio": 41,
+		"txd-gpio-config": 2,
+		"rxd-gpio": 42,
+		"rxd-gpio-config": 2,
+		"baud-rates": 115200,
+		"data-bits": 8,
+		"parity-bits": 0,
+		"stop-bits": 1
+	},
+
+	"uart-8250@0x20068000": {
+		"clock-name": "link-uart2",
+		"txd-gpio": 50,
+		"txd-gpio-config": 2,
+		"rxd-gpio": 51,
+		"rxd-gpio-config": 2,
+		"baud-rates": 115200,
+		"data-bits": 8,
+		"parity-bits": 0,
+		"stop-bits": 1
+	},
+
+	"i2c-rk3128@0x20072000": {
+		"clock-name": "link-i2c0",
+		"clock-frequency": 400000,
+		"sda-gpio": 1,
+		"sda-gpio-config": 1,
+		"scl-gpio": 0,
+		"scl-gpio-config": 1
+	},
+
+	"i2c-rk3128@0x20056000": {
+		"clock-name": "link-i2c1",
+		"clock-frequency": 400000,
+		"sda-gpio": 3,
+		"sda-gpio-config": 1,
+		"scl-gpio": 2,
+		"scl-gpio-config": 1
+	},
+
+	"i2c-rk3128@0x2005a000": {
+		"clock-name": "link-i2c2",
+		"clock-frequency": 400000,
+		"sda-gpio": 84,
+		"sda-gpio-config": 3,
+		"scl-gpio": 85,
+		"scl-gpio-config": 3
+	},
+
+	"i2c-rk3128@0x2005e000": {
+		"clock-name": "link-i2c3",
+		"clock-frequency": 400000,
+		"sda-gpio": 7,
+		"sda-gpio-config": 1,
+		"scl-gpio": 6,
+		"scl-gpio-config": 1
+	},
+
+	"spi-rk3128@0x20074000": {
+		"clock-name": "link-spi",
+		"sclk-gpio": 9,
+		"sclk-gpio-config": 2,
+		"mosi-gpio": 11,
+		"mosi-gpio-config": 2,
+		"miso-gpio": 13,
+		"miso-gpio-config": 2,
+		"cs-gpio": 14,
+		"cs-gpio-config": 2
+	},
+
+	"regulator-rk816@0": { "i2c-bus": "i2c-rk3128.0", "slave-address": 26, "name": "dcdc1", "channel": 0 },
+	"regulator-rk816@1": { "i2c-bus": "i2c-rk3128.0", "slave-address": 26, "name": "dcdc2", "channel": 1 },
+	"regulator-rk816@2": { "i2c-bus": "i2c-rk3128.0", "slave-address": 26, "name": "dcdc3", "channel": 2 },
+	"regulator-rk816@3": { "i2c-bus": "i2c-rk3128.0", "slave-address": 26, "name": "dcdc4", "channel": 3 },
+	"regulator-rk816@4": { "i2c-bus": "i2c-rk3128.0", "slave-address": 26, "name": "ldo1", "channel": 4 },
+	"regulator-rk816@5": { "i2c-bus": "i2c-rk3128.0", "slave-address": 26, "name": "ldo2", "channel": 5 },
+	"regulator-rk816@6": { "i2c-bus": "i2c-rk3128.0", "slave-address": 26, "name": "ldo3", "channel": 6 },
+	"regulator-rk816@7": { "i2c-bus": "i2c-rk3128.0", "slave-address": 26, "name": "ldo4", "channel": 7, "default": { "voltage": 1100000, "enable": true } },
+	"regulator-rk816@8": { "i2c-bus": "i2c-rk3128.0", "slave-address": 26, "name": "ldo5", "channel": 8 },
+	"regulator-rk816@9": { "i2c-bus": "i2c-rk3128.0", "slave-address": 26, "name": "ldo6", "channel": 9, "default": { "voltage": 3300000, "enable": true } },
+
+	"regulator-gpio@0": {
+		"parent": null,
+		"name": "lcd-power-5v",
+		"voltage": 5000000,
+		"gpio": 70,
+		"active-low": false,
+		"default": {
+			"enable": false
+		}
+	},
+
+	"rtc-rk816@0": {
+		"i2c-bus": "i2c-rk3128.0",
+		"slave-address": 26
+	},
+
+	"wdg-rk3128@0x2004c000": {
+		"clock-name": "link-wdt"
+	},
+
+	"gmeter-mma8452@0": {
+		"i2c-bus": "i2c-rk3128.1",
+		"slave-address": 29
+	},
+
+	"key-rk816@0": {
+		"i2c-bus": "i2c-rk3128.0",
+		"slave-address": 26,
+		"interrupt-gpio": 8
+	},
+
+	"key-adc@0": {
+		"adc-name": "adc-rk3128.0",
+		"adc-channel": 1,
+		"poll-interval-ms": 100,
+		"keys": [
+			{ "min-voltage": 0, "max-voltage": 100000, "key-code": 11 },
+			{ "min-voltage": 200000, "max-voltage": 400000, "key-code": 10 },
+			{ "min-voltage": 500000, "max-voltage": 700000, "key-code": 7 },
+			{ "min-voltage": 900000, "max-voltage": 1100000, "key-code": 6 }
+		]
+	},
+
+	"rc-gpio@0": {
+		"gpio": 122,
+		"gpio-config": 0,
+		"active-low": true,
+		"maps": [
+			{ "scan-code": 4259584, "key-code": 48 },
+			{ "scan-code": 4259585, "key-code": 49 },
+			{ "scan-code": 4259586, "key-code": 50 },
+			{ "scan-code": 4259587, "key-code": 51 },
+			{ "scan-code": 4259588, "key-code": 52 },
+			{ "scan-code": 4259589, "key-code": 53 },
+			{ "scan-code": 4259590, "key-code": 54 },
+			{ "scan-code": 4259591, "key-code": 55 },
+			{ "scan-code": 4259592, "key-code": 56 },
+			{ "scan-code": 4259593, "key-code": 57 },
+			{ "scan-code": 4259661, "key-code": 1 },
+			{ "scan-code": 4259595, "key-code": 2 },
+			{ "scan-code": 4259598, "key-code": 3 },
+			{ "scan-code": 4259600, "key-code": 4 },
+			{ "scan-code": 4259601, "key-code": 5 },
+			{ "scan-code": 4259612, "key-code": 6 },
+			{ "scan-code": 4259605, "key-code": 7 },
+			{ "scan-code": 4259650, "key-code": 8 },
+			{ "scan-code": 4259651, "key-code": 9 },
+			{ "scan-code": 4259602, "key-code": 10 },
+			{ "scan-code": 4259597, "key-code": 11 },
+			{ "scan-code": 4259610, "key-code": 20 },
+			{ "scan-code": 4259653, "key-code": 21 },
+			{ "scan-code": 4259664, "key-code": 22 },
+			{ "scan-code": 4259654, "key-code": 23 },
+			{ "scan-code": 4259700, "key-code": 24 }
+		]
+	},
+
+	"led-gpio@0": {
+		"gpio": 64,
+		"gpio-config": 0,
+		"active-low": true,
+		"default-brightness": 0
+	},
+
+	"led-gpio@1": {
+		"gpio": 65,
+		"gpio-config": 0,
+		"active-low": true,
+		"default-brightness": 0
+	},
+
+	"led-gpio@2": {
+		"gpio": 66,
+		"gpio-config": 0,
+		"active-low": true,
+		"default-brightness": 0
+	},
+
+	"led-gpio@3": {
+		"gpio": 67,
+		"gpio-config": 0,
+		"active-low": true,
+		"default-brightness": 0
+	},
+
+	"ledtrig-heartbeat@0": {
+		"led-name": "led-gpio.0",
+		"period-ms": 1260
+	},
+
+	"led-pwm-bl@0": {
+		"pwm-name": "pwm-rk3128.0",
+		"regulator-name": "lcd-power-5v",
+		"pwm-period-ns": 1000000,
+		"pwm-polarity": false,
+		"pwm-percent-from": 6,
+		"pwm-percent-to": 100,
+		"default-brightness": 0
+	},
+
+	"buzzer-gpio@0": {
+		"gpio": 55,
+		"active-low": false
+	},
+
+	"buzzer-pwm@0": {
+		"pwm-name": "pwm-rk3128.1",
+		"pwm-polarity": true
+	},
+
+	"vibrator-pwm@0": {
+		"pwm-name": "pwm-rk3128.2",
+		"pwm-polarity": true
+	},
+
+	"fb-rk3128@0x1010e000": {
+		"regulator-name": "lcd-power-5v",
+		"clock-name": "link-dclk-lcd",
+		"lcd-reset-gpio": 68,
+		"lcd-reset-gpio-config": 0,
+		"lcd-enable-gpio": 70,
+		"lcd-enable-gpio-config": 0,
+		"width": 1024,
+		"height": 600,
+		"physical-width": 216,
+		"physical-height": 135,
+		"bits-per-pixel": 32,
+		"bytes-per-pixel": 4,
+		"clock-frequency": 48000000,
+		"hfront-porch": 80,
+		"hback-porch": 80,
+		"hsync-len": 2,
+		"vfront-porch": 12,
+		"vback-porch": 20,
+		"vsync-len": 3,
+		"hsync-active": false,
+		"vsync-active": false,
+		"den-active": false,
+		"clk-active": false,
+		"backlight": "led-pwm-bl.0"
+	},
+	
+	"console-uart@0": {
+		"uart-bus": "uart-8250.2"
+	}
+}
